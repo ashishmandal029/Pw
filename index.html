@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PW Batches</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-4 text-center">Physics Wallah Batches</h1>
+    <div id="batches" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </div>
+
+  <script>
+    async function loadBatches() {
+      const res = await fetch('https://pw-api-eac03087aaac.herokuapp.com/api/batches?page=1&limit=100');
+      const data = await res.json();
+      const container = document.getElementById('batches');
+
+      data.data.forEach(batch => {
+        const card = document.createElement('div');
+        card.className = 'bg-white p-4 rounded-2xl shadow';
+        card.innerHTML = `
+          <h2 class="text-xl font-semibold">${batch.name}</h2>
+          <p class="text-gray-600">Teacher: ${batch.teacher || 'Unknown'}</p>
+          <p class="text-sm text-gray-500 mt-2">ID: ${batch.id}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    loadBatches();
+  </script>
+</body>
+</html>
